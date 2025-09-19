@@ -27,29 +27,29 @@ export const useGoogleAuth = () => {
           setSession(null);
           setUser(null);
           
-          // Limpar TODOS os dados locais relacionados ao usuário
-          const keysToRemove = [];
-          for (let i = 0; i < localStorage.length; i++) {
-            const key = localStorage.key(i);
-            if (key && (
-              key.startsWith('user_credits_') || 
-              key.startsWith('dreamlink_guest_data') ||
-              key.startsWith('ryan_test_credits')
-            )) {
-              keysToRemove.push(key);
-            }
-          }
-          keysToRemove.forEach(key => localStorage.removeItem(key));
-          
-          // Resetar para dados guest limpos
-          localStorage.setItem('dreamlink_guest_data', JSON.stringify({
-            notifications: [],
-            credits: 80
-          }));
-          
-          // Ativar modo guest automaticamente
-          setIsGuest(true);
-          toast.success('👤 Modo visitante ativado - dados limpos');
+      // Limpar TODOS os dados locais relacionados ao usuário - OTIMIZADO
+      const keysToRemove = [];
+      for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        if (key && (
+          key.startsWith('user_credits_') || 
+          key.startsWith('dreamlink_guest_data') ||
+          key.startsWith('ryan_test_credits')
+        )) {
+          keysToRemove.push(key);
+        }
+      }
+      keysToRemove.forEach(key => localStorage.removeItem(key));
+      
+      // Resetar para dados guest limpos
+      localStorage.setItem('dreamlink_guest_data', JSON.stringify({
+        notifications: [],
+        credits: 80
+      }));
+      
+      // Ativar modo guest automaticamente
+      setIsGuest(true);
+      console.log('🧹 Dados limpos - modo guest ativo');
         }
       }
     );

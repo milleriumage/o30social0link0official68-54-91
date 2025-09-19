@@ -23,11 +23,12 @@ export const useUserReset = () => {
         return false;
       }
       
-      toast.success('🔄 Dados resetados com sucesso!');
+      toast.success('🔄 Dados resetados com sucesso! Atualizando interface...');
       
-      // Recarregar a página para garantir que todos os dados sejam atualizados
+      // Ao invés de recarregar, disparar evento para re-sincronizar dados
       setTimeout(() => {
-        window.location.reload();
+        window.dispatchEvent(new CustomEvent('user-data-reset'));
+        toast.success('✅ Interface atualizada com sucesso!');
       }, 1000);
       
       return true;

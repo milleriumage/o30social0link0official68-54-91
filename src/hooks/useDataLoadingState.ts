@@ -21,7 +21,7 @@ export const useDataLoadingState = () => {
     showVitrine: false
   });
 
-  // Controlar loading inicial após login
+  // Controlar loading inicial após login - OTIMIZADO
   useEffect(() => {
     if (authLoading) {
       setLoadingState(prev => ({
@@ -33,49 +33,15 @@ export const useDataLoadingState = () => {
       return;
     }
 
-    if (user && session) {
-      // Usuário logado - carregar dados
-      setLoadingState(prev => ({
-        ...prev,
-        isDataLoading: true,
-        loadingMessage: 'Carregando suas mídias e configurações...',
-        showVitrine: true
-      }));
-
-      // Simular tempo mínimo de carregamento para UX suave
-      const minLoadingTime = setTimeout(() => {
-        setLoadingState(prev => ({
-          ...prev,
-          isInitialLoading: false,
-          isDataLoading: false
-        }));
-      }, 1500);
-
-      return () => clearTimeout(minLoadingTime);
-    } else {
-      // Não logado ou guest - loading rápido
-      const quickLoad = setTimeout(() => {
-        setLoadingState(prev => ({
-          ...prev,
-          isInitialLoading: false,
-          isDataLoading: false
-        }));
-      }, 500);
-
-      return () => clearTimeout(quickLoad);
-    }
-  }, [user, session, authLoading]);
-
-  // Loading adicional para créditos
-  useEffect(() => {
-    if (creditsLoading && user) {
-      setLoadingState(prev => ({
-        ...prev,
-        isDataLoading: true,
-        loadingMessage: 'Sincronizando créditos...'
-      }));
-    }
-  }, [creditsLoading, user]);
+    // Usuário logado ou guest - sem timeouts desnecessários
+    setLoadingState(prev => ({
+      ...prev,
+      isInitialLoading: false,
+      isDataLoading: creditsLoading && !!user,
+      loadingMessage: user ? 'Carregando suas mídias...' : 'Pronto',
+      showVitrine: !!user
+    }));
+  }, [user, session, authLoading, creditsLoading]);
 
   return {
     isLoading: loadingState.isInitialLoading || loadingState.isDataLoading,

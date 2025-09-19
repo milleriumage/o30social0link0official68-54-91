@@ -8,6 +8,7 @@ import { Eye, EyeOff, Lock, RotateCcw } from "lucide-react";
 import { useVisibilitySettings, type VisibilitySettings } from "@/hooks/useVisibilitySettings";
 import { supabase } from "@/integrations/supabase/client";
 import { useLanguage } from "@/hooks/useLanguage";
+import { toast } from "sonner";
 
 interface VisibilitySettingsDialogProps {
   open: boolean;
@@ -138,7 +139,12 @@ export const VisibilitySettingsDialog: React.FC<VisibilitySettingsDialogProps> =
               🔴 {t('visibility.status')}
             </span>
             <Button
-              onClick={() => window.location.reload()}
+              onClick={() => {
+                // Ao invés de reload, forçar re-render do componente
+                onOpenChange(false);
+                setTimeout(() => onOpenChange(true), 100);
+                toast.success('🔄 Configurações atualizadas');
+              }}
               size="sm"
               variant="outline"
               className="ml-2"

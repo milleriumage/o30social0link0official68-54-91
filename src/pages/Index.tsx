@@ -292,7 +292,10 @@ const Index = () => {
                 {tLanding('description')}
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <GoogleAuthButton onLoginSuccess={() => window.location.reload()} />
+                <GoogleAuthButton onLoginSuccess={() => {
+                  toast.success('🎉 Login realizado! Redirecionando...');
+                  setTimeout(() => window.location.href = '/dashboard', 1000);
+                }} />
                 <Button variant="outline" className="px-8 py-3 text-lg border-white/20 text-white hover:bg-white/10">
                   {tLanding('demo')}
                 </Button>
@@ -435,7 +438,10 @@ const Index = () => {
               Crie sua conta grátis e descubra como transformar sua audiência em clientes fiéis
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <GoogleAuthButton onLoginSuccess={() => window.location.reload()} />
+              <GoogleAuthButton onLoginSuccess={() => {
+                toast.success('🎉 Login realizado! Redirecionando...');
+                setTimeout(() => window.location.href = '/dashboard', 1000);
+              }} />
               <Button variant="outline" className="px-8 py-3 text-lg border-white/20 text-white hover:bg-white/10">
                 Saiba Mais
               </Button>
