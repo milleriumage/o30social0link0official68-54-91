@@ -52,7 +52,6 @@ import { useDataIsolation } from "@/hooks/useDataIsolation";
 import LivePixPaymentDialog from "@/components/LivePixPaymentDialog";
 import { useVisibilitySettings } from "@/hooks/useVisibilitySettings";
 import { VisibilityTestComponent } from "@/components/VisibilityTestComponent";
-import { TrialEndedDialog } from "@/components/TrialEndedDialog";
 import { CheckoutTransparenteDialog } from "@/components/CheckoutTransparenteDialog";
 import { TrialTimer } from "@/components/TrialTimer";
 import { useTrialStatus } from "@/hooks/useTrialStatus";
@@ -620,7 +619,6 @@ const Index = () => {
   });
   const [slideshowMinimized, setSlideshowMinimized] = useState(false);
   const [hoveredMainMedia, setHoveredMainMedia] = useState(false);
-  const [showTrialEndedDialog, setShowTrialEndedDialog] = useState(false);
   const [showPixDialog, setShowPixDialog] = useState(false);
   const [showLivePixDialog, setShowLivePixDialog] = useState(false);
   const [showPaymentMethodsDialog, setShowPaymentMethodsDialog] = useState(false);
@@ -712,13 +710,7 @@ const Index = () => {
     // Salvar preferência no localStorage
     localStorage.setItem('auralink-dark-mode', JSON.stringify(isDarkMode));
   }, [isDarkMode]);
-
-  // Show trial ended dialog when trial expires
-  useEffect(() => {
-    if (trialExpired && user) {
-      setShowTrialEndedDialog(true);
-    }
-  }, [trialExpired, user]);
+  
   useEffect(() => {
     let interval: NodeJS.Timeout;
     if (isTimerRunning && timer > 0) {
@@ -1641,9 +1633,6 @@ const Index = () => {
           </Button>
           <img src={zoomedImage} alt="Fullscreen image" className="max-w-[95vw] max-h-[95vh] object-contain" onClick={e => e.stopPropagation()} />
         </div>}
-      
-      {/* Trial Ended Dialog */}
-      <TrialEndedDialog isOpen={showTrialEndedDialog} onClose={() => setShowTrialEndedDialog(false)} />
       
       {/* Gift Welcome Messages */}
       {pendingGifts.map((gift) => (
